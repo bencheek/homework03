@@ -1,5 +1,5 @@
-"use strict"
+'use strict'
 
-const pino = require("pino")
+const pino = require('pino')
 
-module.exports = pino({name : "DogBook Server"})
+module.exports = pino({ name: 'DogBook Server' })
