@@ -11,6 +11,7 @@ const app = new Koa()
 const { router } = require('./router.js')
 const { loggingRouter } = require('./router.js')
 const config = require('./config.js')
+const log = require('./logger')
 
 app
   .use(koaCompress())
@@ -20,6 +21,6 @@ app
   .use(router.routes())
   .use(router.allowedMethods())
 
-console.log('Listening on port ' + config.server.port)
+log.info(`Listening on port ${config.server.port}`)
 
 app.listen(config.server.port)
