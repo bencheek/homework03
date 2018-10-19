@@ -4,7 +4,9 @@
   "description": "NodeJS Nights Homework",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/app.js | pino-pretty",
+    "lint": "eslint ."
   },
   "keywords": [
     "REST",
@@ -20,11 +22,12 @@
     "koa-body": "^4.0.4",
     "koa-compress": "^3.0.0",
     "koa-router": "^7.4.0",
-    "nodemon": "^1.18.4",
     "pino": "^5.8.0"
   },
   "devDependencies": {
     "@strv/eslint-config-javascript": "^8.3.0",
-    "eslint": "^5.7.0"
+    "eslint": "^5.7.0",
+    "nodemon": "^1.18.4",
+    "pino-pretty": "^2.2.2"
   }
 }
