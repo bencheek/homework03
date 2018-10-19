@@ -1,0 +1,30 @@
+{
+  "name": "homework03",
+  "version": "1.0.0",
+  "description": "NodeJS Nights Homework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "REST",
+    "API",
+    "CRUD"
+  ],
+  "author": "Martin Bencik",
+  "license": "ISC",
+  "dependencies": {
+    "jsonschema": "^1.2.4",
+    "kcors": "^2.2.2",
+    "koa": "^2.5.3",
+    "koa-body": "^4.0.4",
+    "koa-compress": "^3.0.0",
+    "koa-router": "^7.4.0",
+    "nodemon": "^1.18.4",
+    "pino": "^5.8.0"
+  },
+  "devDependencies": {
+    "@strv/eslint-config-javascript": "^8.3.0",
+    "eslint": "^5.7.0"
+  }
+}
