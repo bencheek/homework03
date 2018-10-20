@@ -25,10 +25,7 @@ router.get('/', ctx => {
   .get('/dog/:id', ctx => {
     const dogToShow = dogsArray.find(dog => dog.id === Number(ctx.params.id))
 
-    if (!dogToShow) {
-      ctx.status = 404
-      return
-    }
+    ctx.assert(dogToShow, 404, `Dog with id ${ctx.params.id} not found`)
 
     ctx.body = dogToShow
   })
@@ -37,32 +34,20 @@ router.get('/', ctx => {
 
     const result = validator.validate(newDog, dogSchema)
 
-    if (!result.valid) {
-      ctx.status = 400
-      ctx.body = {
-        errors: result.errors,
-      }
-      return
-    }
+    ctx.assert(result.valid, 400, 'Validation failed', result.errors)
 
     const existingDog = dogsArray.find(dog => dog.id === newDog.id)
 
-    if (existingDog) {
-      ctx.status = 409
-      return
-    }
+    ctx.assert(!existingDog, 409, `Dog with id ${newDog.id} already exists`)
 
     dogsArray.push(newDog)
 
     ctx.body = dogsArray
-})
+  })
   .delete('/dog/:id', ctx => {
     const dogIndex = dogsArray.findIndex(dog => dog.id === Number(ctx.params.id))
 
-    if (dogIndex < 0) {
-      ctx.status = 404
-      return
-    }
+    ctx.assert(dogIndex >= 0, 404, `Dog with id ${ctx.params.id} not found`)
 
     dogsArray.splice(dogIndex, 1)
     ctx.body = dogsArray
@@ -70,21 +55,12 @@ router.get('/', ctx => {
   .put('/dog/:id', ctx => {
     const dogIndex = dogsArray.findIndex(dog => dog.id === Number(ctx.params.id))
 
-    if (dogIndex < 0) {
-      ctx.status = 404
-      return
-    }
+    ctx.assert(dogIndex >= 0, 404, `Dog with id ${ctx.params.id} not found`)
 
     const updatedDog = ctx.request.body
     const result = validator.validate(updatedDog, dogSchema)
 
-    if (!result.valid) {
-      ctx.status = 400
-      ctx.body = {
-        errors: result.errors,
-      }
-      return
-    }
+    ctx.assert(result.valid, 400, 'Validation failed', result.errors)
 
     dogsArray[dogIndex] = ctx.request.body
     ctx.body = dogsArray
