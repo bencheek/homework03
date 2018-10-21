@@ -9,12 +9,6 @@ const dogSchema = require('./schema/dog.json')
 const dogsArray = require('./data/dogs')
 const log = require('./logger')
 
-const loggingRouter = new Router({
-  prefix: '/',
-}).all('', ctx => {
-  log.info('Request arrived')
-})
-
 router.get('/', ctx => {
   log.info('GET /')
   ctx.body = 'Dogbook backend server'
@@ -67,6 +61,5 @@ router.get('/', ctx => {
   })
 
 module.exports = {
-  router,
-  loggingRouter,
+  router
 }

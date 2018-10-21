@@ -5,11 +5,9 @@ const koaBody = require('koa-body')
 const koaCompress = require('koa-compress')
 const koaCors = require('kcors')
 
-
 const app = new Koa()
 
 const { router } = require('./router.js')
-const { loggingRouter } = require('./router.js')
 const config = require('./config.js')
 const log = require('./logger')
 
@@ -17,7 +15,11 @@ app
   .use(koaCompress())
   .use(koaCors())
   .use(koaBody())
-  .use(loggingRouter.routes())
+  .use(async (ctx, next) => {
+    log.info(ctx.request.url)
+    await next()
+    log.info(ctx.response.body)
+  })
   .use(router.routes())
   .use(router.allowedMethods())
 
