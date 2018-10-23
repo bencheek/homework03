@@ -1,0 +1,19 @@
+{
+    "type": "Object",
+    "required" : ["name", "breed"],
+    "properties" : {
+      "name" : {
+        "type" : "string"
+      },
+      "breed" : {
+        "type": "string"
+      },
+      "birthYear" : {
+        "type" : "number"
+      },
+      "photo" : {
+        "type" : "string",
+        "format" : "url"
+      }
+    }
+  }

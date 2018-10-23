@@ -18,6 +18,8 @@ app
   .use(dogsRouter.routes())
   .use(dogsRouter.allowedMethods())
 
+app.on('error', err => log.error(err))
+
 log.info(`Listening on port ${config.server.port}`)
 
 app.listen(config.server.port)

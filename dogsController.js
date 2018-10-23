@@ -1,8 +1,10 @@
 'use strict'
 
+const log = require('./logger')
 const validator = require('./validator')
-const dogSchema = require('./schema/dog.json')
 const dogsArray = require('./data/dogs')
+const createDogSchema = require('./schema/createDog.json')
+const updateDogSchema = require('./schema/updateDog.json')
 
 const dogsController = {
 
@@ -10,7 +12,7 @@ const dogsController = {
 
   create: ctx => {
     const newDog = ctx.request.body
-    const result = validator.validate(newDog, dogSchema)
+    const result = validator.validate(newDog, createDogSchema)
     ctx.assert(result.valid, 400, `Validation failed :${result.errors.map(error => error.message)}`)
 
     const existingDog = dogsArray.find(dog => dog.id === newDog.id)
@@ -18,32 +20,42 @@ const dogsController = {
 
     dogsArray.push(newDog)
     ctx.body = dogsArray
+
+    log.info(`Dog with id ${newDog.id} created`)
   },
 
   read: ctx => {
-    const dogToShow = dogsArray.find(dog => dog.id === Number(ctx.params.id))
-    ctx.assert(dogToShow, 404, `Dog with id ${ctx.params.id} not found`)
+    const dogId = Number(ctx.params.id) 
+    const dogToShow = dogsArray.find(dog => dog.id === dogId)
+    ctx.assert(dogToShow, 404, `Dog with id ${dogId} not found`)
     ctx.body = dogToShow
   },
 
   update: ctx => {
-    const dogIndex = dogsArray.findIndex(dog => dog.id === Number(ctx.params.id))
-    ctx.assert(dogIndex >= 0, 404, `Dog with id ${ctx.params.id} not found`)
+    const dogId = Number(ctx.params.id)
+    const dogIndex = dogsArray.findIndex(dog => dog.id === dogId)
+    ctx.assert(dogIndex >= 0, 404, `Dog with id ${dogId} not found`)
 
     const updatedDog = ctx.request.body
-    const result = validator.validate(updatedDog, dogSchema)
 
+    const result = validator.validate(updatedDog, updateDogSchema)
     ctx.assert(result.valid, 400, `Validation failed :${result.errors.map(error => error.message)}`)
 
-    dogsArray[dogIndex] = ctx.request.body
+    updatedDog.id = dogId
+    dogsArray[dogIndex] = updatedDog
     ctx.body = dogsArray
+
+    log.info(`Dog with id ${dogId} updated`)
   },
 
   delete: ctx => {
-    const dogIndex = dogsArray.findIndex(dog => dog.id === Number(ctx.params.id))
-    ctx.assert(dogIndex >= 0, 404, `Dog with id ${ctx.params.id} not found`)
+    const dogId = Number(ctx.params.id)  
+    const dogIndex = dogsArray.findIndex(dog => dog.id === dogId)
+    ctx.assert(dogIndex >= 0, 404, `Dog with id ${dogId} not found`)
     dogsArray.splice(dogIndex, 1)
     ctx.body = dogsArray
+
+    log.info(`Dog with id ${dogId} deleted`)
   },
 
 }
