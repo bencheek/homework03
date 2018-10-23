@@ -1,18 +1,15 @@
 {
     "type": "Object",
-    "required" : "true",
+    "required" : ["id", "name", "breed"],
     "properties" : {
       "id": {
-        "type" : "integer",
-        "required" : "true"
+        "type" : "integer"
       },
       "name" : {
-        "type" : "string",
-        "required" : "true"
+        "type" : "string"
       },
       "breed" : {
-        "type": "string",
-        "required" : "true"
+        "type": "string"
       },
       "birthYear" : {
         "type" : "number"

@@ -7,21 +7,16 @@ const koaCors = require('kcors')
 
 const app = new Koa()
 
-const { router } = require('./router.js')
-const config = require('./config.js')
+const dogsRouter = require('./dogsRouter')
+const config = require('./config')
 const log = require('./logger')
 
 app
   .use(koaCompress())
   .use(koaCors())
   .use(koaBody())
-  .use(async (ctx, next) => {
-    log.info(ctx.request.url)
-    await next()
-    log.info(ctx.response.body)
-  })
-  .use(router.routes())
-  .use(router.allowedMethods())
+  .use(dogsRouter.routes())
+  .use(dogsRouter.allowedMethods())
 
 log.info(`Listening on port ${config.server.port}`)
 
