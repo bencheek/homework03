@@ -2,7 +2,7 @@
   "name": "homework03",
   "version": "1.0.0",
   "description": "NodeJS Nights Homework",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/app.js | pino-pretty",
@@ -22,7 +22,8 @@
     "koa-body": "^4.0.4",
     "koa-compress": "^3.0.0",
     "koa-router": "^7.4.0",
-    "pino": "^5.8.0"
+    "pino": "^5.8.0",
+    "ramda": "^0.25.0"
   },
   "devDependencies": {
     "@strv/eslint-config-javascript": "^8.3.0",

@@ -7,16 +7,16 @@ const koaCors = require('kcors')
 
 const app = new Koa()
 
-const dogsRouter = require('./dogsRouter')
+const router = require('./routes')
 const config = require('./config')
-const log = require('./logger')
+const log = require('./utils/logger')
 
 app
   .use(koaCompress())
   .use(koaCors())
   .use(koaBody())
-  .use(dogsRouter.routes())
-  .use(dogsRouter.allowedMethods())
+  .use(router)
+
 
 app.on('error', err => log.error(err))
 
