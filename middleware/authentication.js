@@ -1,14 +1,16 @@
 'use strict'
 
 const operations = require('../operations/users')
+const errors = require('../utils/errors')
 const { validate } = require('./../validations/validator')
 const schemas = require('./../validations/schema/users')
+
 
 async function authenticate(ctx, next) {
   if (!ctx) {
     throw new Error('Context has to be defined')
   }
-  const parsedHeader = parseHeader(ctx.header.authorization)
+  const parsedHeader = await parseHeader(ctx.header.authorization)
   if (!parsedHeader || !parsedHeader.value
     || !parsedHeader.scheme || parsedHeader.scheme.toLowerCase() !== 'jwt'
   ) {
@@ -28,10 +30,16 @@ function parseHeader(hdrValue) {
   if (!hdrValue || typeof hdrValue !== 'string') {
     return null
   }
-  const matches = hdrValue.match(/(\S+)\s+(\S+)/u)
-  return matches && {
-    scheme: matches[1],
-    value: matches[2],
+
+  const parts = hdrValue.split('.')
+
+  if (parts.length !== 3) {
+    throw new errors.UnauthorizedError('JWT Token must have three parts separated by dots')
+  }
+
+  return {
+    scheme: parts[1],
+    value: parts[2],
   }
 }
 

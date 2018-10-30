@@ -11,6 +11,7 @@ const router = new Router()
 router.use(handleErrors)
 
 router.post('/users', users.signUp)
+router.post('/sessions/user', users.signIn)
 
 router
   .get('/dog', authenticate, dogsController.list)
