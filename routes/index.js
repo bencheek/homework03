@@ -1,11 +1,12 @@
 'use strict'
 
 const Router = require('koa-router')
+const { handleErrors, handleNotFound } = require('../middleware/errors')
 const dogsController = require('./../controllers/dogs')
 
 const router = new Router()
 
-// TODO : router.use(handleErrors)
+router.use(handleErrors)
 
 router
   .get('/dog', dogsController.list)
@@ -14,7 +15,7 @@ router
   .put('/dog', dogsController.update)
   .delete('/dog/:id', dogsController.remove)
 
-// TODO : router.use(handleNotFound)
+router.use(handleNotFound)
 
 module.exports = router.routes()
 

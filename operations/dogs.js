@@ -1,6 +1,7 @@
 'use strict'
 
 const dogRespository = require('./../repositories/dogs')
+const { NotFoundError } = require('./../utils/errors')
 
 function list() {
   return dogRespository.findAll()
@@ -18,13 +19,19 @@ function update(input) {
   const dogToUpdate = dogRespository.findById(input.id)
 
   if (!dogToUpdate) {
-    throw Error(`Dog with id ${input.id} not found`)
+    throw new NotFoundError(`Dog with id ${input.id} not found`)
   }
 
   return dogRespository.update(dogToUpdate, input)
 }
 
 function remove(input) {
+  const dogToRemove = dogRespository.findById(input.id)
+
+  if (!dogToRemove) {
+    throw new NotFoundError(`Dog with id ${input.id} not found`)
+  }
+
   return dogRespository.remove(input.id)
 }
 
