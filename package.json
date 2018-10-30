@@ -16,7 +16,11 @@
   "author": "Martin Bencik",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.2",
+    "crypto": "^1.0.1",
+    "dotenv": "^6.1.0",
     "jsonschema": "^1.2.4",
+    "jsonwebtoken": "^8.3.0",
     "kcors": "^2.2.2",
     "koa": "^2.5.3",
     "koa-body": "^4.0.4",
