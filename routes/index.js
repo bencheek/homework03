@@ -11,7 +11,7 @@ router
   .get('/dog', dogsController.list)
   .get('/dog/:id', dogsController.read)
   .post('/dog', dogsController.create)
-  .put('/dog/:id', dogsController.update)
+  .put('/dog', dogsController.update)
   .delete('/dog/:id', dogsController.remove)
 
 // TODO : router.use(handleNotFound)

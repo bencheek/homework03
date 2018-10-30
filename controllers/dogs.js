@@ -51,7 +51,7 @@ async function update(ctx) {
   ctx.assert(result.valid, 400, `Validation failed :${result.errors.map(error => error.message)}`)
 
   ctx.status = 200
-  ctx.body = await dogsOperations.remove(input)
+  ctx.body = await dogsOperations.update(input)
 }
 
 async function remove(ctx) {

@@ -16,7 +16,12 @@ function read(input) {
 
 function update(input) {
   const dogToUpdate = dogRespository.findById(input.id)
-  return dogRespository.update(dogToUpdate)
+
+  if (!dogToUpdate) {
+    throw Error(`Dog with id ${input.id} not found`)
+  }
+
+  return dogRespository.update(dogToUpdate, input)
 }
 
 function remove(input) {

@@ -1,7 +1,7 @@
 'use strict'
 
 const R = require('ramda')
-const dogs = require('./../database/dogs.json')
+let dogs = require('./../database/dogs.json')
 
 
 function findAll() {
@@ -19,15 +19,18 @@ function findById(id) {
 function create(dog) {
   dog.id = dogs.length + 1
   dogs.push(dog)
-  return dog
+  return dogs
 }
 
 function remove(id) {
   return R.reject(R.propEq('id', id), dogs)
 }
 
-function update(dog) {
-  return R.merge(R.find(R.propEq('id', dog.id)), dog)
+function update(dogToUpdate, newDogVersion) {
+  const newDog = R.merge(dogToUpdate, newDogVersion)
+  const dogIndex = R.findIndex(R.propEq('id', dogToUpdate.id), dogs)
+  dogs = R.update(dogIndex, newDog, dogs)
+  return dogs
 }
 
 module.exports = {
