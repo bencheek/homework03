@@ -28,6 +28,10 @@ module.exports = {
     }
   },
 
+  decodeToken(accessToken) {
+    return jwt.decode(accessToken)
+  },
+
   hashPassword(password) {
     return bcrypt.hash(peperify(password), config.auth.saltRounds)
   },
