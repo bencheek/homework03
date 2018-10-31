@@ -3,8 +3,8 @@
 const log = require('../utils/logger')
 const validator = require('../validations/validator')
 const dogsOperations = require('../operations/dogs')
-const createDogSchema = require('./../validations/schema/createDog.json')
-const updateDogSchema = require('./../validations/schema/updateDog.json')
+const schema = require('./../validations/schema/dogs')
+
 
 async function list(ctx) {
   ctx.body = await dogsOperations.list()
@@ -28,9 +28,7 @@ async function create(ctx) {
     photo: ctx.request.body.photo,
   }
 
-  const result = validator.validate(input, createDogSchema)
-  // TODO : throw app error
-  ctx.assert(result.valid, 400, `Validation failed :${result.errors.map(error => error.message)}`)
+  validator.validate(schema.createDog, input)
 
   const dogs = await dogsOperations.create(input)
   ctx.status = 201
@@ -47,8 +45,7 @@ async function update(ctx) {
     photo: ctx.request.body.photo,
   }
 
-  const result = validator.validate(input, updateDogSchema)
-  ctx.assert(result.valid, 400, `Validation failed :${result.errors.map(error => error.message)}`)
+  validator.validate(schema.updateDog, input)
 
   ctx.status = 200
   ctx.body = await dogsOperations.update(input)

@@ -19,7 +19,7 @@ function update(input) {
   const dogToUpdate = dogRespository.findById(input.id)
 
   if (!dogToUpdate) {
-    throw new NotFoundError(`Dog with id ${input.id} not found`)
+    throw new NotFoundError({}`Dog with id ${input.id} not found`)
   }
 
   return dogRespository.update(dogToUpdate, input)

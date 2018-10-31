@@ -11,7 +11,7 @@ function findAll() {
 function findById(id) {
   const user = R.find(R.propEq('id', id), users)
   if (!user) {
-    throw new errors.NotFoundError()
+    throw new errors.NotFoundError(`User with id ${id} not found`)
   }
   return user
 }
