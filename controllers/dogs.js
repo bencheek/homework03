@@ -26,7 +26,7 @@ async function create(ctx) {
     breed: ctx.request.body.breed,
     birthYear: parseInt(ctx.request.body.birthYear),
     photo: ctx.request.body.photo,
-    userId: ctx.state.user.id,
+    userId: parseInt(ctx.state.user.id),
   }
 
   validator.validate(schema.createDog, input)

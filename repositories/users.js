@@ -6,8 +6,9 @@ function findAll() {
   return User.query()
 }
 
-function findById(id) {
-  return User.query().findById(id)
+async function findById(id) {
+  const user = await User.query().findById(id)
+  return user
 }
 
 function findByEmail(email) {
