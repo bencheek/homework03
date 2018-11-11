@@ -14,6 +14,7 @@ const staticDatabaseConfig = {
 
 const databaseConfig = R.mergeDeepLeft(config.database, staticDatabaseConfig)
 
+
 module.exports = {
   [config.env]: databaseConfig,
 }
