@@ -8,6 +8,7 @@ const createDog = {
     breed: { type: 'string', required: true, maxLength: 80 },
     birthYear: { type: 'integer' },
     photo: { type: 'string', format: 'url' },
+    userId: { type: 'integer', required: true },
   },
 }
 

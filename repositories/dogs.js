@@ -1,32 +1,48 @@
 'use strict'
 
 const R = require('ramda')
-let dogs = require('./../database/dogs.json')
+const { Dog } = require('../database/models')
 
-
+/**
+ * Returns all records
+ * @returns {Promisse<Array>}
+ */
 function findAll() {
-  return dogs
+  return Dog.query()
 }
 
+/**
+ * Return record by id
+ * @param {Number} id record id
+ * @return {Promise<Dog>}
+ */
 function findById(id) {
-  return R.find(R.propEq('id', id), dogs)
+  return Dog.query().findById(id)
 }
 
-function create(dog) {
-  dog.id = dogs.length + 1
-  dogs.push(dog)
-  return dogs
+/**
+ * Create record
+ * @param {Object} dog Dog object
+ * @param {String} dog.name Dog name
+ * @param {String} dog.breed Dog breed
+ * @param {Date} dog.birthYear Dog birth year
+ * @param {String} dog.photo Dog photo
+ * @param {Number} dog.userId Dog owner id
+ * @return {Promise<Dog>}
+ */
+async function create(dog) {
+  const newDog = await Dog.query().insertAndFetch(dog)
+  return newDog
 }
 
 function remove(id) {
-  return R.reject(R.propEq('id', id), dogs)
+  return Dog.query().deleteById(id)
 }
 
 function update(dogToUpdate, newDogVersion) {
   const newDog = R.merge(dogToUpdate, newDogVersion)
-  const dogIndex = R.findIndex(R.propEq('id', dogToUpdate.id), dogs)
-  dogs = R.update(dogIndex, newDog, dogs)
-  return dogs
+  Dog.query().patch(newDog).where('id', dogToUpdate.id)
+  return Dog.query()
 }
 
 module.exports = {

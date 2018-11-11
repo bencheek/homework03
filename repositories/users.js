@@ -1,29 +1,24 @@
 'use strict'
 
-const R = require('ramda')
-const errors = require('../utils/errors')
-const users = require('../database/users.json')
+const { User } = require('../database/models')
 
 function findAll() {
-  return users
+  return User.query()
 }
 
 function findById(id) {
-  const user = R.find(R.propEq('id', id), users)
-  if (!user) {
-    throw new errors.NotFoundError(`User with id ${id} not found`)
-  }
-  return user
+  return User.query().findById(id)
 }
 
 function findByEmail(email) {
-  return R.find(R.propEq('email', email), users)
+  return User.query()
+    .where('email', email)
+    .first()
 }
 
-function create(user) {
-  user.id = users.length + 1
-  users.push(user)
-  return user
+async function create(user) {
+  const newUser = await User.query().insertAndFetch(user)
+  return newUser
 }
 
 module.exports = {
