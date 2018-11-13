@@ -6,8 +6,8 @@ function findAll() {
   return User.query()
 }
 
-async function findById(id) {
-  const user = await User.query().findById(id)
+function findById(id) {
+  const user = User.query().findById(id)
   return user
 }
 

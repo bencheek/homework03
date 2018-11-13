@@ -62,6 +62,26 @@ class NotFoundError extends AppError {
 }
 
 /**
+ * @apiDefine UserNotFoundError
+ * @apiError UserNotFound Requested user not found.
+ * @apiErrorExample {json} NotFound
+ *    HTTP/1.1 404 NotFound
+ *    {
+ *      "type": "NOT_FOUND",
+ *      "message": "User not found."
+ *    }
+ */
+class UserNotFoundError extends NotFoundError {
+  constructor(message) {
+    super(
+      message || 'User not found.',
+      'NOT_FOUND',
+      404,
+    )
+  }
+}
+
+/**
  * @apiDefine UnauthorizedError
  * @apiError Unauthorized Server denied access to requested resource.
  * @apiErrorExample {json} Unauthorized
@@ -141,4 +161,5 @@ module.exports = {
   IdleTimeoutError,
   ConflictError,
   InternalServerError,
+  UserNotFoundError,
 }

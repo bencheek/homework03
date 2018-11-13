@@ -39,10 +39,10 @@ function remove(id) {
   return Dog.query().deleteById(id)
 }
 
-function update(dogToUpdate, newDogVersion) {
+async function update(dogToUpdate, newDogVersion) {
   const newDog = R.merge(dogToUpdate, newDogVersion)
-  Dog.query().patch(newDog).where('id', dogToUpdate.id)
-  return Dog.query()
+  const updatedDog = await Dog.query().patchAndFetchById(dogToUpdate.id, newDog)
+  return updatedDog
 }
 
 module.exports = {

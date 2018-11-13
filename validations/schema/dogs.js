@@ -21,6 +21,7 @@ const updateDog = {
     breed: { type: 'string', maxLength: 80 },
     birthYear: { type: 'integer' },
     photo: { type: 'string', format: 'url' },
+    userId: { type: 'integer', required: true },
   },
 }
 

@@ -44,6 +44,7 @@ async function update(ctx) {
     breed: ctx.request.body.breed,
     birthYear: parseInt(ctx.request.body.birthYear),
     photo: ctx.request.body.photo,
+    userId: parseInt(ctx.state.user.id),
   }
 
   validator.validate(schema.updateDog, input)

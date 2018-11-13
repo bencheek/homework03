@@ -60,7 +60,7 @@ async function verifyTokenPayload(input) {
   }
 
   const userId = parseInt(jwtPayload.userId)
-  const user = userRepository.findById(userId)
+  const user = await userRepository.findById(userId)
   if (!user || user.disabled) {
     throw new errors.UnauthorizedError()
   }
