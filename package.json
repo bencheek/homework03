@@ -4,7 +4,8 @@
   "description": "NodeJS Nights Homework",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npx mocha --opts ./tests/mocha.opts ./tests",
+    "test:coverage": "npx nyc mocha --opts ./tests/mocha.opts ./tests",
     "dev": "nodemon src/app.js | pino-pretty",
     "lint": "eslint .",
     "migrate:make": "knex migrate:make --knexfile ./database/knexfile.js",
@@ -41,6 +42,11 @@
     "@strv/eslint-config-javascript": "^8.3.0",
     "eslint": "^5.7.0",
     "nodemon": "^1.18.4",
-    "pino-pretty": "^2.2.2"
+    "pino-pretty": "^2.2.2",
+    "mocha": "^5.2.0",
+    "chai": "^4.2.0",
+    "sinon": "^7.1.1",
+    "supertest-koa-agent": "^0.3.0",
+    "node-fetch": "^2.3.0"
   }
 }
