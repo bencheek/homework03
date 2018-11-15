@@ -16,7 +16,7 @@ describe('Users', () => {
     }
 
     it('responds with newly created user', async () => {
-      const res = await request(app)
+      const signUpResponse = await request(app)
         .post('/user')
         .send({
           ...userData,
@@ -24,13 +24,13 @@ describe('Users', () => {
         })
         .expect(201)
 
-      expect(res.body).to.deep.include({
+      expect(signUpResponse.body).to.deep.include({
         ...userData,
         disabled: false,
         id: 1,
       })
 
-      expect(res.body).to.have.all.keys([
+      expect(signUpResponse.body).to.have.all.keys([
         'name',
         'email',
         'disabled',
@@ -38,6 +38,68 @@ describe('Users', () => {
         'id',
         'accessToken',
       ])
+
+      // log in correct user and password
+      const logInResponse = await request(app)
+        .post('/sessions/user')
+        .send({
+          ...userData,
+          password: '11111111',
+        })
+        .expect(201)
+
+      expect(logInResponse.body).to.deep.include({
+        ...userData,
+        disabled: false,
+        id: 1,
+      })
+
+      expect(logInResponse.body).to.have.all.keys([
+        'name',
+        'email',
+        'disabled',
+        'createdAt',
+        'id',
+        'accessToken',
+      ])
+
+      // use logged user to access GET /dog
+      await request(app)
+        .get('/dog')
+        .set('Authorization', `${logInResponse.body.accessToken}`)
+        .send()
+        .expect(200)
+
+      // try to access GET /dog without JWT token
+      await request(app)
+        .get('/dog')
+        .send()
+        .expect(401)
+
+      // try to access GET /dog with wrong JWT token
+      await request(app)
+        .get('/dog')
+        .set('Authorization', 'XXX.XXX.XXX')
+        .send()
+        .expect(401)
+
+      // log in nonexistent user
+      await request(app)
+        .post('/sessions/user')
+        .send({
+          email: 'nonexistenusre@email.com',
+          password: '11111111',
+        })
+        .expect(401)
+
+      // log in user with incorrect password
+      await request(app)
+        .post('/sessions/user')
+        .send({
+          ...userData,
+          password: '22222222',
+        })
+        .expect(401)
     })
 
     it('responds with error when not all required attributes are in body', async () => {

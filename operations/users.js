@@ -34,10 +34,6 @@ async function signIn(input) {
     throw new errors.UnauthorizedError(`User with email ${user.email} not found.`)
   }
 
-  if (foundUser.disabled) {
-    throw new errors.UnauthorizedError(`User with email ${user.email} has been disabled.`)
-  }
-
   const passwordOk = await crypto.comparePasswords(input.password, foundUser.password)
 
   if (!passwordOk) {
