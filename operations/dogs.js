@@ -1,6 +1,5 @@
 'use strict'
 
-const errors = require('./../utils/errors')
 const dogRespository = require('./../repositories/dogs')
 
 function list() {
