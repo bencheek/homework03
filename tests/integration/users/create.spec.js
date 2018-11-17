@@ -98,6 +98,16 @@ describe('Users', () => {
         .expect(401)
     })
 
+    it('denies user to access protected URL with nonexistent user JWT token', async () => {
+      const nonExistentUserToken = await crypto.generateAccessToken(2)
+      // try to access GET /dog with wrong JWT token
+      await request(app)
+        .get('/dog')
+        .set('Authorization', nonExistentUserToken)
+        .send()
+        .expect(401)
+    })
+
     it('denies nonexisting user to log in', async () => {
       // log in nonexistent user
       await request(app)
@@ -110,7 +120,6 @@ describe('Users', () => {
     })
 
     it('denies user with invalid password to log in', async () => {
-
       await usersRepository.create({
         ...userData,
         disabled: false,
