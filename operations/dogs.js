@@ -3,18 +3,16 @@
 const errors = require('./../utils/errors')
 const dogRespository = require('./../repositories/dogs')
 const userRespository = require('./../repositories/users')
-const { NotFoundError } = require('./../utils/errors')
 
 function list() {
   return dogRespository.findAll()
 }
 
 async function create(input) {
-
   const user = await userRespository.findById(input.userId)
 
   if (!user) {
-    throw new errors.UserNotFoundError()
+    throw new errors.UserNotFoundError(`User with id ${input.userId} not found`)
   }
 
   return dogRespository.create(input)
@@ -28,17 +26,17 @@ async function update(input) {
   const dogToUpdate = await dogRespository.findById(input.id)
 
   if (!dogToUpdate) {
-    throw new NotFoundError({}`Dog with id ${input.id} not found`)
+    throw new errors.NotFoundError(`Dog with id ${input.id} not found`)
   }
 
   return dogRespository.update(dogToUpdate, input)
 }
 
-function remove(input) {
-  const dogToRemove = dogRespository.findById(input.id)
+async function remove(input) {
+  const dogToRemove = await dogRespository.findById(input.id)
 
   if (!dogToRemove) {
-    throw new NotFoundError(`Dog with id ${input.id} not found`)
+    throw new errors.NotFoundError(`Dog with id ${input.id} not found`)
   }
 
   return dogRespository.remove(input.id)

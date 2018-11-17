@@ -83,13 +83,10 @@ describe('Dogs', () => {
     })
 
     it('cannot delete a nonexisting dog', async () => {
-      const res = await request(app)
-        .delete('/dog/1')
+      await request(app)
+        .delete('/dog/10')
         .set('Authorization', `${userToken}`)
-        .expect(200)
-
-      expect(res.body).to.be.a('Number')
-      expect(res.body).to.be.equal(0)
+        .expect(404)
     })
 
     it('updates a dogs', async () => {
@@ -113,6 +110,24 @@ describe('Dogs', () => {
       expect(res.body).to.deep.include({
         ...updatedDog,
       })
+    })
+
+    it('cannot update a nonexisting dog', async () => {
+
+      const updatedDog = {
+        ...dogData,
+        name: 'updatedName',
+        breed: 'updatedBreed',
+        photo: 'www.updated.com',
+        birthYear: 1999,
+        id: 10,
+      }
+
+      await request(app)
+        .put('/dog')
+        .set('Authorization', `${userToken}`)
+        .send(updatedDog)
+        .expect(404)
     })
 
     it('responds with newly created dog', async () => {
