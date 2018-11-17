@@ -30,18 +30,29 @@ function findById(id) {
  * @param {Number} dog.userId Dog owner id
  * @return {Promise<Dog>}
  */
-async function create(dog) {
-  const newDog = await Dog.query().insertAndFetch(dog)
+function create(dog) {
+  const newDog = Dog.query().insertAndFetch(dog)
   return newDog
 }
 
+/**
+ * Delete record by id
+ * @param {Number} id id of record to delete
+ * @return {Promise<Number>} number of deleted records
+ */
 function remove(id) {
   return Dog.query().deleteById(id)
 }
 
-async function update(dogToUpdate, newDogVersion) {
+/**
+ * Update a dog record
+ * @param {Object} dogToUpdate original Dog object to update
+ * @param {Object} newDogVersion new version of Dog 
+ * @return {Promise<Dog>} resulting dog
+ */
+function update(dogToUpdate, newDogVersion) {
   const newDog = R.merge(dogToUpdate, newDogVersion)
-  const updatedDog = await Dog.query().patchAndFetchById(dogToUpdate.id, newDog)
+  const updatedDog = Dog.query().patchAndFetchById(dogToUpdate.id, newDog)
   return updatedDog
 }
 

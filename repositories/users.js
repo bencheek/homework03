@@ -2,23 +2,40 @@
 
 const { User } = require('../database/models')
 
+/**
+ * Returns all records
+ * @returns {Promisse<Array>}
+ */
 function findAll() {
   return User.query()
 }
 
+/**
+ * Return record by id
+ * @param {Number} id record id
+ * @return {Promise<User>}
+ */
 function findById(id) {
   const user = User.query().findById(id)
   return user
 }
 
+/**
+ * Return User record by email
+ * @param {String} email user email
+ * @return {Promise<User>}
+ */
 function findByEmail(email) {
-  return User.query()
-    .where('email', email)
-    .first()
+  return User.query().findOne('email', email)
 }
 
-async function create(user) {
-  const newUser = await User.query().insertAndFetch(user)
+/**
+ * Create record
+ * @param {Object} user User object
+ * @return {Promise<User>}
+ */
+function create(user) {
+  const newUser = User.query().insertAndFetch(user)
   return newUser
 }
 
