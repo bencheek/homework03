@@ -83,10 +83,13 @@ describe('Dogs', () => {
     })
 
     it('cannot delete a nonexisting dog', async () => {
-      await request(app)
+      const res = await request(app)
         .delete('/dog/10')
         .set('Authorization', `${userToken}`)
-        .expect(404)
+        .expect(200)
+
+      expect(res.body).to.be.a('Number')
+      expect(res.body).to.be.equal(0)
     })
 
     it('updates a dogs', async () => {
@@ -127,7 +130,7 @@ describe('Dogs', () => {
         .put('/dog')
         .set('Authorization', `${userToken}`)
         .send(updatedDog)
-        .expect(404)
+        .expect(204)
     })
 
     it('responds with newly created dog', async () => {

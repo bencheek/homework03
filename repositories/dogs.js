@@ -1,6 +1,5 @@
 'use strict'
 
-const R = require('ramda')
 const { Dog } = require('../database/models')
 
 /**
@@ -31,8 +30,7 @@ function findById(id) {
  * @return {Promise<Dog>}
  */
 function create(dog) {
-  const newDog = Dog.query().insertAndFetch(dog)
-  return newDog
+  return Dog.query().insertAndFetch(dog)
 }
 
 /**
@@ -46,14 +44,11 @@ function remove(id) {
 
 /**
  * Update a dog record
- * @param {Object} dogToUpdate original Dog object to update
  * @param {Object} newDogVersion new version of Dog 
  * @return {Promise<Dog>} resulting dog
  */
-function update(dogToUpdate, newDogVersion) {
-  const newDog = R.merge(dogToUpdate, newDogVersion)
-  const updatedDog = Dog.query().patchAndFetchById(dogToUpdate.id, newDog)
-  return updatedDog
+function update(newDogVersion) {
+  return Dog.query().updateAndFetchById(newDogVersion.id, newDogVersion)
 }
 
 module.exports = {
