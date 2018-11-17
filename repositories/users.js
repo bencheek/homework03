@@ -16,8 +16,7 @@ function findAll() {
  * @return {Promise<User>}
  */
 function findById(id) {
-  const user = User.query().findById(id)
-  return user
+  return User.query().findById(id)
 }
 
 /**
@@ -35,8 +34,7 @@ function findByEmail(email) {
  * @return {Promise<User>}
  */
 function create(user) {
-  const newUser = User.query().insertAndFetch(user)
-  return newUser
+  return User.query().insertAndFetch(user)
 }
 
 module.exports = {

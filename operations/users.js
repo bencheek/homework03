@@ -13,14 +13,15 @@ async function signUp(input) {
     password: await crypto.hashPassword(input.password),
     disabled: false,
   }
-  const alreadyExists = await userRepository.findByEmail(user.email)
-  if (alreadyExists) {
-    throw new errors.ConflictError('User already exists.')
+
+  try {
+    const newUser = await userRepository.create(user)
+    newUser.accessToken = await crypto.generateAccessToken(newUser.id)
+    log.info('signUp successful')
+    return newUser
+  } catch (err) {
+    throw new errors.ConflictError(err.detail)
   }
-  const newUser = await userRepository.create(user)
-  newUser.accessToken = await crypto.generateAccessToken(newUser.id)
-  log.info('signUp successful')
-  return newUser
 }
 
 async function signIn(input) {
