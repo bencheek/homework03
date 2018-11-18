@@ -17,7 +17,7 @@ module.exports = {
   // https://eslint.org/blog/2017/06/eslint-v4.1.0-released
   overrides: [{
     files: [
-      'test/**',
+      'tests/**',
     ],
 
     rules: {
