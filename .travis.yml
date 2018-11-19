@@ -33,7 +33,7 @@ before_script:
   - npm run db:migrate
 
 script:
-  - npm run test:coverage
+  - npm run test:coverage:report
 
 after_success:
   - echo Upload code coverage 💪
