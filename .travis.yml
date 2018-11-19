@@ -22,7 +22,6 @@ env:
     - CODECOV_TOKEN="5e3112f7-a8bf-4652-bf65-585e3ec704c2"
 
 install:
-  - npm install -g codecov
   - npm install
 
 before_script:
