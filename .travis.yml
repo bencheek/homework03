@@ -19,8 +19,10 @@ services:
 env:
   global:
     - NODE_ENV=test
+    - CODECOV_TOKEN="5e3112f7-a8bf-4652-bf65-585e3ec704c2"
 
 install:
+  - npm install -g codecov
   - npm install
 
 before_script:
@@ -35,6 +37,7 @@ script:
 
 after_success:
   - echo Upload code coverage 💪
+  - codecov
 
 deploy:
   - provider: heroku
