@@ -32,7 +32,10 @@ deploy:
 - provider: heroku
   skip_cleanup: true
   api_key:
-    secure: 465bd3aa-0160-4f54-b100-1e65fc69bc48
+    secure: "u/E/GQNWCEe7J91jZrkAWZzeOMvIjaP3b815VRKZdw0Bi2/t3fCV0AStX6X9G1IQPHHAY1UlImdnlTJmYsecVUSJby8XCG6la3I8qNC46cdtIROWG74Adpa9GgDkoWI5qW6NzM/3/XjTlob7HOn2DeHDss6jGrcsvEO9EaMSi3fiH5CzjFPuc3uqHZjPI
+oxcIRImIHfbvnl1l5y7JVcb2/23YdVqFiAw3yJDQSStVv+ZgAY3yKFkl5hTjA6sHLHZ85TbrUfa8pq2eW944iR3YFz2ueucQ4p0uBuE+OuSp7U5x8GRKYsvHFRJ+GIxGfwSMDyQzkxavGHdiCs/WKw8AQF44zX8rDVoRAQk89yO6+yhNdqmnamU9M5TeIgtknF7BHINg
+Vx59FmbzN7G+/AOWQQBBbsf8hGBL8gCZbQr6Kg+3He2Tp00o5IFz1v6AHe8/ToBYiK0nJfYXiWjwMw/ZeQtXGO+g32aSD3/Mp6jzNdV0d1o+mHjSYUY1JWL8MbUsBjlzAnf7ZYnQNwru4EYOaCMFGbzs50V991Rnxaxbl4Q9qELjPJXLMBmIl6c/PDmFKKi+vftdvHy+
+ctXti9lv+lvpfU1mQtc/O6vx4VK8QC/ZdAsvSRvqPgDln3xzfTyD2RVEDzWxS0GCjPUgr2F4EYv88BVdqBHEx/HwhmrRDs="
   app: dogbook-nodejsnights
   strategy: git
   on:
