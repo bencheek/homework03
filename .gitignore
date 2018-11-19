@@ -2,4 +2,3 @@
 package-lock.json
 config/default.js
 /.nyc_output
-/tests/coverage/*
