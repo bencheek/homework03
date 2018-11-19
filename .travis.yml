@@ -1,54 +1,43 @@
----
 sudo: required
 dist: trusty
 language: node_js
 node_js:
-  - 11.0.0
-
+- 11.0.0
 branches:
   only:
-    - master
-
+  - master
 cache:
   directories:
-    - node_modules
-
+  - node_modules
 services:
-  - docker
-
+- docker
 env:
   global:
-    - NODE_ENV=test
-    - CODECOV_TOKEN=5e3112f7-a8bf-4652-bf65-585e3ec704c2
-
+  - NODE_ENV=test
+  - secure: LiDevDd3JIyGnX3eunY3mN/4lZqgjyzDvaukX6O18GdGRdy0YZGjc8j1HvwyHC+754sgAfkAMgVZ/lTQq5KB5HYe5+WZcA7hcI6l9a/h4EITuHERND9PpRcjzPyg6wo1Z5BlsvyaPWz9Z4IhVNAmoo+VHDfKa4/LRsBk4vI3+xnR9Js1U9jqYQaC7xfbjLSxZVBZgk792PxVdyDXuQ+qPMYR6hyKbhQ/BrUAoDDii4F7xhDOwZ6KQqY6ErPvXTjiz/yXjMVEEv8PLVTI77wFuvDPbZf8xcbW6pOHkNpfh8EsRc9/HiGpucRCYoW/0oFzgmpmQcRGMO9MCn/+CYQHl0DdMxihcREUqOboLrpIRWkdsizO/hij32WSJQhSjhbmyB0hBc1RtqVpYejPTT7ovSECtoxoVpB2KH3ZBJYKP3W4xfmzIQZ4dU5tCRAtYy17znG2d63zd+UNr2vPSqJJpQQC1FXL1LFxlHehqDDMFhk8ebiwhHrgQ+ouXvCZgosnQyuh5dcm0MIzu2BjvrlwZO4AZ4B+ZEZOa670vkdEC2BrzwrHyPi9uR7naU+dvF4g4tyLGmo6Sh7+9Hyb/4MX2rvUb95K9Mi/e0BwdSkI/1QC66T/k86LBno4ZSZe97lWOHZ2I9549HIuq3y7BG8MF4vu7HMUutrdngCTIL8tEoc=
 install:
-  - npm install
-
+- npm install
 before_script:
-  - sudo service postgresql stop
-  - docker ps
-  - npm run infra
-  - sleep 5
-  - npm run db:migrate
-
+- sudo service postgresql stop
+- docker ps
+- npm run infra
+- sleep 5
+- npm run db:migrate
 script:
-  - npm run test:coverage:report
-
+- npm run test:coverage:report
 after_success:
-  - echo Upload code coverage 💪
-  - ./node_modules/.bin/codecov
-
+- "echo Upload code coverage \U0001F4AA"
+- "./node_modules/.bin/codecov"
 deploy:
-  - provider: heroku
-    skip_cleanup: true
-    api_key:
-      secure: "465bd3aa-0160-4f54-b100-1e65fc69bc48"
-    app: dogbook-nodejsnights
-    strategy: git
-    on:
-      branch:
-        - master
-      repo: bencheek/homework03
-      
+- provider: heroku
+  skip_cleanup: true
+  api_key:
+    secure: 465bd3aa-0160-4f54-b100-1e65fc69bc48
+  app: dogbook-nodejsnights
+  strategy: git
+  on:
+    branch:
+    - master
+    repo: bencheek/homework03
 notifications:
   email: false
