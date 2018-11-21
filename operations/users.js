@@ -6,7 +6,7 @@ const errors = require('../utils/errors')
 const crypto = require('../utils/crypto')
 
 async function signUp(input) {
-  log.info({ input }, 'signUp')
+  log.info({ email: input.email }, 'signUp')
   const user = {
     name: input.name,
     email: input.email.toLowerCase(),
@@ -17,7 +17,7 @@ async function signUp(input) {
   try {
     const newUser = await userRepository.create(user)
     newUser.accessToken = await crypto.generateAccessToken(newUser.id)
-    log.info('signUp successful')
+    log.info({ email: input.email }, 'signUp successful')
     return newUser
   } catch (err) {
     throw new errors.ConflictError(err.detail)
@@ -25,7 +25,7 @@ async function signUp(input) {
 }
 
 async function signIn(input) {
-  log.info({ input }, 'signIn')
+  log.info({ email: input.email }, 'signIn')
   const user = {
     email: input.email.toLowerCase(),
     password: input.password,
@@ -43,13 +43,12 @@ async function signIn(input) {
 
   foundUser.accessToken = await crypto.generateAccessToken(foundUser.id)
 
-  log.info('signIn successful')
+  log.info({ email: user.email }, 'signIn successful')
 
   return foundUser
 }
 
 async function verifyTokenPayload(input) {
-  log.info({ input }, 'verifyTokenPayload')
   const jwtPayload = await crypto.verifyAccessToken(input.jwtToken)
   const now = Date.now()
   if (!jwtPayload || !jwtPayload.exp || now >= jwtPayload.exp * 1000) {

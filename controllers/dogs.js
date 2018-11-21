@@ -31,10 +31,10 @@ async function create(ctx) {
 
   validator.validate(schema.createDog, input)
 
-  const dogs = await dogsOperations.create(input)
+  const dog = await dogsOperations.create(input)
   ctx.status = 201
-  ctx.body = dogs
-  log.info('Dog created')
+  ctx.body = dog
+  log.info({ id: dog.id }, 'Dog created')
 }
 
 async function update(ctx) {

@@ -11,6 +11,7 @@ module.exports = {
     table.integer('user_id')
     table.foreign('user_id').references('users.id').onDelete('CASCADE')
     table.timestamps()
+    table.index('name')
   }),
 
   down: knex => knex.schema.dropTableIfExists('dogs'),

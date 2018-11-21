@@ -2,6 +2,7 @@
 
 const request = require('supertest-koa-agent')
 const { expect } = require('chai')
+const Chance = require('chance')
 const app = require('../../../app')
 const { resetDb } = require('../../helpers')
 const usersRepository = require('../../../repositories/users')
@@ -10,15 +11,17 @@ const crypto = require('../../../utils/crypto')
 describe('Users', () => {
   beforeEach(resetDb)
 
-  context('POST /user', () => {
+  context('POST /users', () => {
+    const chance = new Chance()
+
     const userData = {
-      email: 'david@gmail.com',
-      name: 'david',
+      email: chance.email({ domain: 'example.com' }),
+      name: chance.name(),
     }
 
     it('responds with newly created user', async () => {
       const signUpResponse = await request(app)
-        .post('/user')
+        .post('/users')
         .send({
           ...userData,
           password: '11111111',
@@ -75,7 +78,7 @@ describe('Users', () => {
 
       // use logged user to access GET /dog
       await request(app)
-        .get('/dog')
+        .get('/dogs')
         .set('Authorization', `${logInResponse.body.accessToken}`)
         .send()
         .expect(200)
@@ -84,7 +87,7 @@ describe('Users', () => {
     it('denies user to access protected URL without JWT token', async () => {
       // try to access GET /dog without JWT token,
       await request(app)
-        .get('/dog')
+        .get('/dogs')
         .send()
         .expect(401)
     })
@@ -92,7 +95,7 @@ describe('Users', () => {
     it('denies user to access protected URL with invalid JWT token', async () => {
       // try to access GET /dog with wrong JWT token
       await request(app)
-        .get('/dog')
+        .get('/dogs')
         .set('Authorization', 'XXX.XXX.XXX')
         .send()
         .expect(401)
@@ -102,7 +105,7 @@ describe('Users', () => {
       const nonExistentUserToken = await crypto.generateAccessToken(2)
       // try to access GET /dog with wrong JWT token
       await request(app)
-        .get('/dog')
+        .get('/dogs')
         .set('Authorization', nonExistentUserToken)
         .send()
         .expect(401)
@@ -113,7 +116,7 @@ describe('Users', () => {
       await request(app)
         .post('/sessions/user')
         .send({
-          email: 'nonexistenusre@email.com',
+          email: chance.email({ domain: 'nonexistentdomain.com' }),
           password: '11111111',
         })
         .expect(401)
@@ -138,7 +141,7 @@ describe('Users', () => {
 
     it('responds with error when not all required attributes are in body', async () => {
       const res = await request(app)
-        .post('/user')
+        .post('/users')
         .send({})
         .expect(400)
 
@@ -155,7 +158,7 @@ describe('Users', () => {
       })
 
       const res = await request(app)
-        .post('/user')
+        .post('/users')
         .send({
           ...userData,
           password: '11111111',

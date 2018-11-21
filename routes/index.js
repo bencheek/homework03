@@ -10,15 +10,15 @@ const router = new Router()
 
 router.use(handleErrors)
 
-router.post('/user', users.signUp)
+router.post('/users', users.signUp)
 router.post('/sessions/user', users.signIn)
 
 router
-  .get('/dog', authenticate, dogsController.list)
-  .get('/dog/:id', authenticate, dogsController.read)
-  .post('/dog', authenticate, dogsController.create)
-  .put('/dog', authenticate, dogsController.update)
-  .delete('/dog/:id', authenticate, dogsController.remove)
+  .get('/dogs', authenticate, dogsController.list)
+  .get('/dogs/:id', authenticate, dogsController.read)
+  .post('/dogs', authenticate, dogsController.create)
+  .put('/dogs', authenticate, dogsController.update)
+  .delete('/dogs/:id', authenticate, dogsController.remove)
 
 router.use(handleNotFound)
 

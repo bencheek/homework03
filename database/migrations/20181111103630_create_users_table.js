@@ -8,6 +8,7 @@ module.exports = {
     table.string('password').notNullable()
     table.boolean('disabled')
     table.timestamps()
+    table.index('email')
   }),
 
   down: knex => knex.schema.dropTableIfExists('users'),

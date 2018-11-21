@@ -2,6 +2,7 @@
 
 const request = require('supertest-koa-agent')
 const { expect, assert } = require('chai')
+const Chance = require('chance')
 const sinon = require('sinon')
 const app = require('../../../app')
 const { resetDb } = require('../../helpers')
@@ -13,9 +14,12 @@ const sandbox = sinon.createSandbox()
 describe('Dogs', () => {
   beforeEach(resetDb)
 
-  context('CRUD /dog', () => {
+  context('CRUD /dogs', () => {
+
+    const chance = new Chance()
+
     const dogData = {
-      name: 'Azor',
+      name: chance.name(),
       breed: 'chihuahua',
       birthYear: 2000,
       photo: 'http://domain.com/image.jpg',
@@ -25,7 +29,7 @@ describe('Dogs', () => {
 
     beforeEach(async () => {
       const res = await request(app)
-        .post('/user')
+        .post('/users')
         .send({
           email: 'mail@sfs.cz',
           name: 'david',
@@ -43,7 +47,7 @@ describe('Dogs', () => {
       await dogsRepository.create(dogData)
 
       const res = await request(app)
-        .get('/dog')
+        .get('/dogs')
         .set('Authorization', `${userToken}`)
         .expect(200)
 
@@ -58,7 +62,7 @@ describe('Dogs', () => {
       const doggie = await dogsRepository.create(dogData)
 
       const res = await request(app)
-        .get(`/dog/${doggie.id}`)
+        .get(`/dogs/${doggie.id}`)
         .set('Authorization', `${userToken}`)
         .expect(200)
 
@@ -72,7 +76,7 @@ describe('Dogs', () => {
       const doggie = await dogsRepository.create(dogData)
 
       const res = await request(app)
-        .delete(`/dog/${doggie.id}`)
+        .delete(`/dogs/${doggie.id}`)
         .set('Authorization', `${userToken}`)
         .expect(200)
 
@@ -84,7 +88,7 @@ describe('Dogs', () => {
 
     it('cannot delete a nonexisting dog', async () => {
       const res = await request(app)
-        .delete('/dog/10')
+        .delete('/dogs/10')
         .set('Authorization', `${userToken}`)
         .expect(200)
 
@@ -105,7 +109,7 @@ describe('Dogs', () => {
       }
 
       const res = await request(app)
-        .put('/dog')
+        .put('/dogs')
         .set('Authorization', `${userToken}`)
         .send(updatedDog)
         .expect(200)
@@ -127,7 +131,7 @@ describe('Dogs', () => {
       }
 
       await request(app)
-        .put('/dog')
+        .put('/dogs')
         .set('Authorization', `${userToken}`)
         .send(updatedDog)
         .expect(204)
@@ -137,7 +141,7 @@ describe('Dogs', () => {
       sinon.mock(dogApi)
 
       const res = await request(app)
-        .post('/dog')
+        .post('/dogs')
         .set('Authorization', `${userToken}`)
         .send(dogData)
         .expect(201)

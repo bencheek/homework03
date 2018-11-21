@@ -49,6 +49,7 @@
     "nodemon": "^1.18.4",
     "pino-pretty": "^2.2.2",
     "sinon": "^7.1.1",
-    "supertest-koa-agent": "^0.3.0"
+    "supertest-koa-agent": "^0.3.0",
+    "chance": "^1.0.16"
   }
 }
