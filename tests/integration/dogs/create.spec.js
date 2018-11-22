@@ -15,14 +15,23 @@ describe('Dogs', () => {
   beforeEach(resetDb)
 
   context('CRUD /dogs', () => {
-
     const chance = new Chance()
 
     const dogData = {
       name: chance.name(),
-      breed: 'chihuahua',
-      birthYear: 2000,
-      photo: 'http://domain.com/image.jpg',
+      breed: chance.animal({ type: 'pet' }),
+      birthYear: chance.integer({ min: 2000, max: 2018 }),
+      photo: chance.url({ domain: 'domain.com',
+        path: 'images',
+        extensions: ['jpg', 'png'] }),
+    }
+
+    const updatedDogData = {
+      ...dogData,
+      name: `${dogData.name}2`,
+      breed: `${dogData.breed}2`,
+      photo: `${dogData.photo}2`,
+      birthYear: dogData.birthYear + 1,
     }
 
     let userToken
@@ -31,8 +40,8 @@ describe('Dogs', () => {
       const res = await request(app)
         .post('/users')
         .send({
-          email: 'mail@sfs.cz',
-          name: 'david',
+          email: chance.email({ domain: 'sfs.cz' }),
+          name: chance.name(),
           password: '11111111',
         })
         .expect(201)
@@ -40,7 +49,7 @@ describe('Dogs', () => {
       userToken = res.body.accessToken
 
       sandbox.stub(dogApi, 'getRandomBreedImage')
-        .returns(Promise.resolve('http://domain.com/image.jpg'))
+        .returns(Promise.resolve(dogData.photo))
     })
 
     it('reads all existing dogs', async () => {
@@ -100,11 +109,7 @@ describe('Dogs', () => {
       const doggie = await dogsRepository.create(dogData)
 
       const updatedDog = {
-        ...dogData,
-        name: 'updatedName',
-        breed: 'updatedBreed',
-        photo: 'www.updated.com',
-        birthYear: 1999,
+        ...updatedDogData,
         id: doggie.id,
       }
 
@@ -120,13 +125,8 @@ describe('Dogs', () => {
     })
 
     it('cannot update a nonexisting dog', async () => {
-
       const updatedDog = {
-        ...dogData,
-        name: 'updatedName',
-        breed: 'updatedBreed',
-        photo: 'www.updated.com',
-        birthYear: 1999,
+        ...updatedDogData,
         id: 10,
       }
 
