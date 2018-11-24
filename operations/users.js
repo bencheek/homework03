@@ -4,6 +4,7 @@ const log = require('../utils/logger')
 const userRepository = require('../repositories/users')
 const errors = require('../utils/errors')
 const crypto = require('../utils/crypto')
+const dbConstants = require('../database/dbconstants')
 
 async function signUp(input) {
   log.info({ email: input.email }, 'signUp')
@@ -14,14 +15,19 @@ async function signUp(input) {
     disabled: false,
   }
 
+
+  let newUser
   try {
-    const newUser = await userRepository.create(user)
-    newUser.accessToken = await crypto.generateAccessToken(newUser.id)
-    log.info({ email: input.email }, 'signUp successful')
-    return newUser
+    newUser = await userRepository.create(user)
   } catch (err) {
-    throw new errors.ConflictError(err.detail)
+    if (err.constraint && err.constraint === dbConstants.CONSTRAINT_USER_EMAIL_UNIQUE) {
+      throw new errors.ConflictError(`Email ${user.email} is already registered`)
+    }
   }
+
+  newUser.accessToken = await crypto.generateAccessToken(newUser.id)
+  log.info({ email: input.email }, 'signUp successful')
+  return newUser
 }
 
 async function signIn(input) {
