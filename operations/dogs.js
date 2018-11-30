@@ -1,13 +1,17 @@
 'use strict'
 
+const rekognition = require('../services/rekognition')
 const dogRespository = require('./../repositories/dogs')
 
 function list() {
   return dogRespository.findAll()
 }
 
-function create(input) {
-  return dogRespository.create(input)
+async function create(input) {
+  return dogRespository.create({
+    ...input,
+    photoVerified: await rekognition.isDogRecognized(input.photo),
+  })
 }
 
 function read(input) {

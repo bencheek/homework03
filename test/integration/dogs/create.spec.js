@@ -8,6 +8,7 @@ const app = require('../../../app')
 const { resetDb } = require('../../helpers')
 const dogApi = require('../../../services/dogapi')
 const dogsRepository = require('../../../repositories/dogs')
+const rekognition = require('../../../services/rekognition')
 
 const sandbox = sinon.createSandbox()
 
@@ -50,6 +51,9 @@ describe('Dogs', () => {
 
       sandbox.stub(dogApi, 'getRandomBreedImage')
         .returns(Promise.resolve(dogData.photo))
+
+      sandbox.stub(rekognition, 'isDogRecognized')
+        .returns(Promise.resolve(true))
     })
 
     it('reads all existing dogs', async () => {
@@ -148,6 +152,7 @@ describe('Dogs', () => {
 
       expect(res.body).to.deep.include({
         ...dogData,
+        photoVerified: true,
       })
 
       expect(res.body.photo).to.be.a('string')
@@ -163,6 +168,7 @@ describe('Dogs', () => {
         'breed',
         'birthYear',
         'photo',
+        'photoVerified',
       ])
     })
 

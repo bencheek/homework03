@@ -7,11 +7,14 @@
     "test": "npx mocha --opts ./tests/mocha.opts ./test",
     "test:coverage:local": "npx nyc mocha --opts ./test/mocha.opts ./test",
     "test:coverage:report": "npx nyc report mocha --opts ./tests/mocha.opts ./test --reporter=text-lcov > ./test/coverage/coverage.lcov",
+    "dev": "nodemon src/app.js | pino-pretty",
+    "lint": "eslint .",
     "migrate:make": "knex migrate:make --knexfile ./database/knexfile.js",
     "db:migrate": "knex migrate:latest --knexfile ./database/knexfile.js",
     "db:rollback": "knex migrate:rollback --knexfile ./database/knexfile.js",
     "infra": "docker-compose up -d",
-    "infra:stop": "docker-compose down"
+    "infra:stop": "docker-compose down",
+    "snyk": "snyk auth $SNYK_TOKEN && snyk test"
   },
   "keywords": [
     "REST",
@@ -33,10 +36,15 @@
     "koa-body": "4.0.4",
     "koa-compress": "3.0.0",
     "koa-router": "7.4.0",
+    "npm": "^6.4.1",
     "objection": "1.4.0",
     "pg": "7.6.1",
     "pino": "5.8.0",
-    "ramda": "0.25.0"
+    "ramda": "0.25.0",
+    "bull": "3.5.2",
+    "foreman": "3.0.1",
+    "aws-sdk": "^2.358.0",
+    "bluebird": "3.5.3"
   },
   "devDependencies": {
     "@strv/eslint-config-javascript": "8.3.0",
@@ -49,6 +57,8 @@
     "pino-pretty": "2.2.2",
     "sinon": "7.1.1",
     "supertest-koa-agent": "0.3.0",
-    "chance": "1.0.16"
+    "chance": "1.0.16",
+    "snyk": "^1.110.2",
+    "foreman": "^3.0.1"
   }
 }
