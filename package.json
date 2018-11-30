@@ -4,9 +4,9 @@
   "description": "NodeJS Nights Homework",
   "main": "app.js",
   "scripts": {
-    "test": "npx mocha --opts ./tests/mocha.opts ./test",
+    "test": "npx mocha --opts ./test/mocha.opts ./test",
     "test:coverage:local": "npx nyc mocha --opts ./test/mocha.opts ./test",
-    "test:coverage:report": "npx nyc report mocha --opts ./tests/mocha.opts ./test --reporter=text-lcov > ./test/coverage/coverage.lcov",
+    "test:coverage:report": "npx nyc report mocha --opts ./test/mocha.opts ./test --reporter=text-lcov > ./test/coverage/coverage.lcov",
     "dev": "nodemon src/app.js | pino-pretty",
     "lint": "eslint .",
     "migrate:make": "knex migrate:make --knexfile ./database/knexfile.js",
@@ -14,7 +14,7 @@
     "db:rollback": "knex migrate:rollback --knexfile ./database/knexfile.js",
     "infra": "docker-compose up -d",
     "infra:stop": "docker-compose down",
-    "snyk": "snyk auth $SNYK_TOKEN && snyk test"
+    "snyk": "snyk test"
   },
   "keywords": [
     "REST",
